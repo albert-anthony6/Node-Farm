@@ -1,5 +1,6 @@
 const fs = require('fs'); //File System - this module grants access to reading and writing data right to the file system
 const http = require('http'); // Gives us networking capabilities such as building an http server. 
+const url = require('url'); // Module is able to analyze the url.
 
 //////////////////////////////////////////
 // FILES
@@ -22,7 +23,17 @@ const http = require('http'); // Gives us networking capabilities such as buildi
 // SERVER
 
 const server = http.createServer((req, res) => {
-    res.end('Hello from the server!');
+    const pathName = req.url;
+    if(pathName === '/overview' || pathName === '/'){
+        res.end('This is the overview');
+    } else if (pathName === '/product') {
+        res.end('This is the product');
+    } else {
+        res.writeHead(404, {
+            'Content-type': 'text/html'
+        });
+        res.end('<h1>Page not found</h1>');
+    }
 });
 
 // Standard IP address for local-host -> 127.0.0.1
